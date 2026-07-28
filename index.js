@@ -8,6 +8,7 @@ dns.setServers([
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const express = require('express');
 const cors = require('cors');
+const { connect } = require("http2");
 const app = express()
 const port = 3001
 require('dotenv').config();
@@ -34,27 +35,51 @@ const client = new MongoClient(uri, {
     }
 });
 
-async function run() {
-    try {
-        // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+// async function run() {
+//     try {
+//         // Connect the client to the server	(optional starting in v4.7)
+//         await client.connect();
 
+
+client.connect().catch(console.dir)
 
         const database = client.db("bibliodrop");
         const bookCollection = database.collection("books");
+        // const librariansCollection = database.collection("librarians");
 
-        app.post('/api/librarians', async (req, res) => {
+        app.get('/api/books', async (req, res) => {
+            const query = {};
+            if (req.query.category) {
+                query.category = req.query.category;
+            }
+            if (req.query.status) {
+                query.status = req.query.status;
+            }
+            const cursor = bookCollection.find(query);
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+
+        app.post('/api/books', async (req, res) => {
             const book = req.body;
             const result = await bookCollection.insertOne(book);
             res.send(result);
         })
 
+        // app.post('/api/librarians', async (req, res) => {
+        //     const librarians = req.body;
+        //     const result = await librariansCollection.insertOne(librarians);
+        //     res.send(result);
+        // })
+
         // Send a ping to confirm a successful connection
-        await client.db("admin").command({ ping: 1 });
-        console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } finally {
-        // Ensures that the client will close when you finish/error
-        // await client.close();
-    }
-}
-run().catch(console.dir);
+        // await client.db("admin").command({ ping: 1 });
+//         console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//     } finally {
+//         // Ensures that the client will close when you finish/error
+//         // await client.close();
+//     }
+// }
+// run().catch(console.dir);
+
+module.exports = app;
