@@ -60,6 +60,15 @@ client.connect().catch(console.dir)
             res.send(result);
         })
 
+        app.get('/api/my/books', async (req, res) => {
+            const query = {};
+            if (req.query.librarianId) {
+                query.librarianId = req.query.librarianId;
+            }
+            const result = bookCollection.findOne(query);
+            res.send(result);
+        })
+
         app.post('/api/books', async (req, res) => {
             const book = req.body;
             const result = await bookCollection.insertOne(book);
