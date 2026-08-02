@@ -52,12 +52,12 @@ app.get('/api/books', async (req, res) => {
 
 
 app.get('/api/books/:id', async (req, res) => {
-const id = req.params.id;
-const query = {
-_id: new ObjectId(id)
-}
-const result = await bookCollection.findOne(query);
-res.send(result);
+    const id = req.params.id;
+    const query = {
+        _id: new ObjectId(id)
+    }
+    const result = await bookCollection.findOne(query);
+    res.send(result);
 })
 
 
@@ -72,7 +72,7 @@ app.put('/api/books/:id', async (req, res) => {
     const id = req.params.id;
     const { _id, ...updateData } = req.body;
     const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
-    
+
     const result = await bookCollection.updateOne(filter, { $set: updateData });
     res.send(result);
 });
@@ -82,7 +82,7 @@ app.patch('/api/books/:id', async (req, res) => {
     const id = req.params.id;
     const { _id, ...updateData } = req.body;
     const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
-    
+
     const result = await bookCollection.updateOne(filter, { $set: updateData });
     res.send(result);
 });
@@ -91,7 +91,7 @@ app.patch('/api/books/:id', async (req, res) => {
 // app.delete('/api/books/:id', async (req, res) => {
 //     const id = req.params.id;
 //     const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
-    
+
 //     const result = await bookCollection.deleteOne(filter);
 //     res.send(result);
 // });
