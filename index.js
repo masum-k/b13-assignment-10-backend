@@ -88,13 +88,13 @@ app.patch('/api/books/:id', async (req, res) => {
 });
 
 
-// app.delete('/api/books/:id', async (req, res) => {
-//     const id = req.params.id;
-//     const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
+app.delete('/api/books/:id', async (req, res) => {
+    const id = req.params.id;
+    const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
 
-//     const result = await bookCollection.deleteOne(filter);
-//     res.send(result);
-// });
+    const result = await bookCollection.deleteOne(filter);
+    res.send(result);
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
