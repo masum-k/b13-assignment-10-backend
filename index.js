@@ -58,15 +58,15 @@ app.post('/api/books', async (req, res) => {
     res.send(result);
 });
 
-// // 3. UPDATE BOOK (PUT /api/books/:id)
-// app.put('/api/books/:id', async (req, res) => {
-//     const id = req.params.id;
-//     const { _id, ...updateData } = req.body;
-//     const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
+// 3. UPDATE BOOK (PUT /api/books/:id)
+app.put('/api/books/:id', async (req, res) => {
+    const id = req.params.id;
+    const { _id, ...updateData } = req.body;
+    const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
     
-//     const result = await bookCollection.updateOne(filter, { $set: updateData });
-//     res.send(result);
-// });
+    const result = await bookCollection.updateOne(filter, { $set: updateData });
+    res.send(result);
+});
 
 // // 4. PATCH / TOGGLE STATUS (PATCH /api/books/:id)
 // app.patch('/api/books/:id', async (req, res) => {
