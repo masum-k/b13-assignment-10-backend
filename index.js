@@ -34,7 +34,6 @@ client.connect().catch(console.dir);
 const database = client.db("bibliodrop");
 const bookCollection = database.collection("books");
 
-// 1. GET BOOKS (Handles general fetch AND filtered fetch per librarian)
 app.get('/api/books', async (req, res) => {
     const query = {};
     if (req.query.category) {
@@ -51,14 +50,24 @@ app.get('/api/books', async (req, res) => {
     res.send(result);
 });
 
-// 2. CREATE BOOK
+
+app.get('/api/books/:id', async (req, res) => {
+const id = req.params.id;
+const query = {
+_id: new ObjectId(id)
+}
+const result = await bookCollection.findOne(query);
+res.send(result);
+})
+
+
 app.post('/api/books', async (req, res) => {
     const book = req.body;
     const result = await bookCollection.insertOne(book);
     res.send(result);
 });
 
-// 3. UPDATE BOOK (PUT /api/books/:id)
+
 app.put('/api/books/:id', async (req, res) => {
     const id = req.params.id;
     const { _id, ...updateData } = req.body;
@@ -68,7 +77,7 @@ app.put('/api/books/:id', async (req, res) => {
     res.send(result);
 });
 
-// // 4. PATCH / TOGGLE STATUS (PATCH /api/books/:id)
+
 app.patch('/api/books/:id', async (req, res) => {
     const id = req.params.id;
     const { _id, ...updateData } = req.body;
@@ -78,7 +87,7 @@ app.patch('/api/books/:id', async (req, res) => {
     res.send(result);
 });
 
-// // 5. DELETE BOOK (DELETE /api/books/:id)
+
 // app.delete('/api/books/:id', async (req, res) => {
 //     const id = req.params.id;
 //     const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
