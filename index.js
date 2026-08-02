@@ -69,14 +69,14 @@ app.put('/api/books/:id', async (req, res) => {
 });
 
 // // 4. PATCH / TOGGLE STATUS (PATCH /api/books/:id)
-// app.patch('/api/books/:id', async (req, res) => {
-//     const id = req.params.id;
-//     const { _id, ...updateData } = req.body;
-//     const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
+app.patch('/api/books/:id', async (req, res) => {
+    const id = req.params.id;
+    const { _id, ...updateData } = req.body;
+    const filter = ObjectId.isValid(id) ? { _id: new ObjectId(id) } : { id: id };
     
-//     const result = await bookCollection.updateOne(filter, { $set: updateData });
-//     res.send(result);
-// });
+    const result = await bookCollection.updateOne(filter, { $set: updateData });
+    res.send(result);
+});
 
 // // 5. DELETE BOOK (DELETE /api/books/:id)
 // app.delete('/api/books/:id', async (req, res) => {
