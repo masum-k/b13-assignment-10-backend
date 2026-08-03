@@ -87,6 +87,19 @@ app.patch('/api/books/:id', async (req, res) => {
     res.send(result);
 });
 
+app.patch('/api/books/:id', async (req, res) => {
+    const id = req.params.id;
+    const updatedBook = req.body;
+    const filter = { _id: new ObjectId(id) }
+    const updatedDoc = {
+        $set: {
+            status: updatedBook.status
+        }
+    }
+    const result = await bookCollection.updateOne(filter, updatedDoc)
+    res.send(result)
+})
+
 
 app.delete('/api/books/:id', async (req, res) => {
     const id = req.params.id;
