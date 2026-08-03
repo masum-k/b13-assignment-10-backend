@@ -60,13 +60,11 @@ app.get('/api/books/:id', async (req, res) => {
     res.send(result);
 })
 
-
 app.post('/api/books', async (req, res) => {
     const book = req.body;
     const result = await bookCollection.insertOne(book);
     res.send(result);
 });
-
 
 app.put('/api/books/:id', async (req, res) => {
     const id = req.params.id;
@@ -76,7 +74,6 @@ app.put('/api/books/:id', async (req, res) => {
     const result = await bookCollection.updateOne(filter, { $set: updateData });
     res.send(result);
 });
-
 
 app.patch('/api/books/:id', async (req, res) => {
     const id = req.params.id;
